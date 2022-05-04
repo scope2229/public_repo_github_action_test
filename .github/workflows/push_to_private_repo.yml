@@ -28,7 +28,7 @@ jobs:
     needs: [check-repo]
 
     # Format should be ${MyOrgName}/${MyOrgRepoName}
-    if: needs.check-repo.outputs.target_repo == "false"
+    if: needs.check-repo.outputs.target_repo == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
