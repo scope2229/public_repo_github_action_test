@@ -15,7 +15,7 @@ jobs:
       - id: setvar
         run: |
           if [[ "${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}" == "${{github.repository}}" || \
-                "${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}" == ""]]; \
+                "${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}" == ""]] \
           then
             echo "Repo is target repo"
             echo "::set-output name=target_repo::true"
