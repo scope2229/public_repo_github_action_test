@@ -6,9 +6,29 @@ on:
       - main
 
 jobs:
+  check-repo:
+    name: Check that the current repo is not the target repo
+    runs-on: ubuntu-latest
+    outputs:
+      target_repo: ${{ steps.setvar.outputs.target_repo }}
+    steps:
+      - id: setvar
+        run: |
+          if [[ "${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}" == "${{github.repository}}" || \
+                "${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}" == ""]]; \
+          then
+            echo "Repo is target repo"
+            echo "::set-output name=target_repo::true"
+          else
+            echo "Repo is not the target repo"
+            echo "::set-output name=target_repo::false"
+          fi
   update-private-repo:
+    name: Push local main to privrepo main
+    needs: [check-repo]
+
     # Format should be ${MyOrgName}/${MyOrgRepoName}
-    if: github.repository == ${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}
+    if: needs.check-repo.outputs.target_repo == "false"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
