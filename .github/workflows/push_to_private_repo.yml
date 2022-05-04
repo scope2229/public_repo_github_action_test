@@ -7,6 +7,8 @@ on:
 
 jobs:
   update-private-repo:
+    # Format should be ${MyOrgName}/${MyOrgRepoName}
+    if: github.repository == ${{ secrets.ORG_NAME_AND_PRIV_REPO_NAME }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
